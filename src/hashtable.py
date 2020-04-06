@@ -64,7 +64,7 @@ class HashTable:
 			print("location used")
 			return "location used"
 		
-		self.storage[getloc] = {key: value}
+		self.storage[getloc] = [key, value]
 		print(self.storage)
 
 		# return 
@@ -128,11 +128,8 @@ class HashTable:
 			if item == None:
 				continue
 
-			print(131,item)
-			oldkey = item.items()[0]
-			print(131,oldkey)
-			oldval = item[oldkey]
-			print(131,item)
+			oldkey = item[0]
+			oldval = item[1]
 			
 			self.insert(oldkey, oldval)
 
