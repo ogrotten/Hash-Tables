@@ -56,8 +56,8 @@ class HashTable:
 		"""
 		#endregion
 
-		gethash = self._hash(key)
-		getloc = self._hash_mod(gethash)
+		# gethash = self._hash(key)
+		getloc = self._hash_mod(key)
 
 		# print(62,key, gethash,getloc)
 		if self.storage[getloc] != None:
@@ -70,6 +70,7 @@ class HashTable:
 		# return 
 
 	def remove(self, key):
+		#region
 		"""
 		Remove the value stored with the given key.
 
@@ -77,9 +78,20 @@ class HashTable:
 
 		Fill this in.
 		"""
-		pass
+
+		#endregion
+
+		# gethash = self._hash(key)
+		getloc = self._hash_mod(key)
+
+		if self.storage[getloc] == None:
+			print("nothing to remove")
+			return "nothing to remove"
+		
+		self.storage[getloc] = None
 
 	def retrieve(self, key):
+		#region
 		"""
 		Retrieve the value stored with the given key.
 
@@ -87,16 +99,41 @@ class HashTable:
 
 		Fill this in.
 		"""
-		pass
+		#endregion
+
+		# gethash = self._hash(key)
+		getloc = self._hash_mod(key)
+
+		if self.storage[getloc] == None:
+			print("empty location")
+			return None
+		
+		return self.storage[getloc]
 
 	def resize(self):
+		#region
 		"""
 		Doubles the capacity of the hash table and
 		rehash all key/value pairs.
 
 		Fill this in.
 		"""
-		pass
+		#endregion
+
+		self.capacity *= 2
+		oldstore = self.storage
+		self.storage = [None] * self.capacity
+
+		for item in oldstore:
+			if item == None:
+				continue
+
+			oldkey = item[0]
+			oldval = item[1]
+			
+			self.insert(oldkey, oldval)
+
+
 
 
 if __name__ == "__main__":
