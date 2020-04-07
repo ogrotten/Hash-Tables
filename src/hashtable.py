@@ -74,6 +74,7 @@ class HashTable:
 			if lp.key == key:
 				#drop the value
 				lp.value == value
+				break
 			#else if a NEXT exists
 			elif lp.next != None:
 				# go to that linked pair
@@ -81,6 +82,7 @@ class HashTable:
 			#else (there's no next)
 			else:
 				lp.next = LinkedPair(key,value)
+				break
 				# put current keyValue into the next
 
 
@@ -119,8 +121,9 @@ class HashTable:
 		getloc = self._hash_mod(key)
 		# print(120, getloc)
 		if self.storage[getloc] == None:
-			print("empty location")
-			return None
+			# print("empty location")
+			# return None
+			return ("empty location")
 		
 		return self.storage[getloc]
 
@@ -139,11 +142,12 @@ class HashTable:
 		self.storage = [None] * self.capacity
 
 		for item in oldstore:
+			print(145,item.key, item.value)
 			if item == None:
 				continue
 
-			oldkey = item[0]
-			oldval = item[1]
+			oldkey = item.key
+			oldval = item.value
 			
 			self.insert(oldkey, oldval)
 
