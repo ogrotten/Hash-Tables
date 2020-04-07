@@ -56,18 +56,26 @@ class HashTable:
 		"""
 		#endregion
 
-		# gethash = self._hash(key)
 		getloc = self._hash_mod(key)
 
-		# print(62,key, gethash,getloc)
-		if self.storage[getloc] != None:
-			print("location used")
-			return "location used"
+		#if this location is empty
+		if self.storage[getloc] == None:
+			#put a new LP here
+			self.storage[getloc] = LinkedPair(key,value)
+			#BOUNCE
+			return
 		
-		self.storage[getloc] = [key, value]
-		print(self.storage)
+		##### from this point forward, we know the location was not empty
+		lp = self.storage[getloc]
+		#run all existing linked pairs
+			#if THIS key matches the insertion key
+				#drop the value
+			#else if a NEXT exists
+				# go to next linked pair
+			#else (there's no next)
+				# put current keyValue into the next
 
-		# return 
+		
 
 	def remove(self, key):
 		#region
