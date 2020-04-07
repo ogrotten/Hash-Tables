@@ -141,17 +141,13 @@ class HashTable:
 		oldstore = self.storage
 		self.storage = [None] * self.capacity
 
+
 		for item in oldstore:
-			print(145,item.key, item.value)
-			if item == None:
-				continue
-
-			oldkey = item.key
-			oldval = item.value
-			
-			self.insert(oldkey, oldval)
-
-
+			# if item != None:
+			while item:
+				self.insert(item.key, item.value)
+				if item.next:
+					item = item.next
 
 
 if __name__ == "__main__":
