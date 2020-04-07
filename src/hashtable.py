@@ -56,6 +56,7 @@ class HashTable:
 		"""
 		#endregion
 
+		# print(59, key, value)
 		getloc = self._hash_mod(key)
 
 		#if this location is empty
@@ -68,14 +69,20 @@ class HashTable:
 		##### from this point forward, we know the location was not empty
 		lp = self.storage[getloc]
 		#run all existing linked pairs
+		while lp:
 			#if THIS key matches the insertion key
+			if lp.key == key:
 				#drop the value
+				lp.value == value
 			#else if a NEXT exists
-				# go to next linked pair
+			elif lp.next != None:
+				# go to that linked pair
+				lp = lp.next
 			#else (there's no next)
+			else:
+				lp.next = LinkedPair(key,value)
 				# put current keyValue into the next
 
-		
 
 	def remove(self, key):
 		#region
@@ -109,9 +116,8 @@ class HashTable:
 		"""
 		#endregion
 
-		# gethash = self._hash(key)
 		getloc = self._hash_mod(key)
-
+		# print(120, getloc)
 		if self.storage[getloc] == None:
 			print("empty location")
 			return None
@@ -170,4 +176,4 @@ if __name__ == "__main__":
 	print(ht.retrieve("line_2"))
 	print(ht.retrieve("line_3"))
 
-	print("")
+	print("") 
