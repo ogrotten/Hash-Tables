@@ -146,8 +146,10 @@ class HashTable:
 			# if item != None:
 			while item:
 				self.insert(item.key, item.value)
-				if item.next:
+				if item.next != None:
 					item = item.next
+				else:
+					break
 
 
 if __name__ == "__main__":
