@@ -7,13 +7,11 @@ class LinkedPair:
 		self.value = value
 		self.next = None
 
-
 class HashTable:
 	"""
 	A hash table that with `capacity` buckets
 	that accepts string keys
 	"""
-
 	
 	def __init__(self, capacity):
 		self.capacity = capacity  # Number of buckets in the hash table
