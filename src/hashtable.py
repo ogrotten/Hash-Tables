@@ -2,119 +2,178 @@
 # Linked List hash table key/value pair
 # '''
 class LinkedPair:
-    def __init__(self, key, value):
-        self.key = key
-        self.value = value
-        self.next = None
+	def __init__(self, key, value):
+		self.key = key
+		self.value = value
+		self.next = None
 
 class HashTable:
-    '''
-    A hash table that with `capacity` buckets
-    that accepts string keys
-    '''
-    def __init__(self, capacity):
-        self.capacity = capacity  # Number of buckets in the hash table
-        self.storage = [None] * capacity
+	"""
+	A hash table that with `capacity` buckets
+	that accepts string keys
+	"""
+	
+	def __init__(self, capacity):
+		self.capacity = capacity  # Number of buckets in the hash table
+		self.storage = [None] * capacity
+
+	def _hash(self, key):
+		"""
+		Hash an arbitrary key and return an integer.
+
+		You may replace the Python hash with DJB2 as a stretch goal.
+		"""
+		return hash(key)
+
+	def _hash_djb2(self, key):
+		"""
+		Hash an arbitrary key using DJB2 hash
+
+		OPTIONAL STRETCH: Research and implement DJB2
+		"""
+		pass
+
+	def _hash_mod(self, key):
+		"""
+		Take an arbitrary key and return a valid integer index
+		within the storage capacity of the hash table.
+		"""
+		return self._hash(key) % self.capacity
+
+	def insert(self, key, value):
+		#region
+		"""
+		Store the value with the given key.
+
+		# Part 1: Hash collisions should be handled with an error warning. (Think about and
+		# investigate the impact this will have on the tests)
+
+		# Part 2: Change this so that hash collisions are handled with Linked List Chaining.
+
+		Fill this in.
+		"""
+		#endregion
+
+		# print(59, key, value)
+		getloc = self._hash_mod(key)
+
+		#if this location is empty
+		if self.storage[getloc] == None:
+			#put a new LP here
+			self.storage[getloc] = LinkedPair(key,value)
+			#BOUNCE
+			return
+		
+		##### from this point forward, we know the location was not empty
+		lp = self.storage[getloc]
+		#run all existing linked pairs
+		while lp:
+			#if THIS key matches the insertion key
+			if lp.key == key:
+				#drop the value
+				lp.value == value
+				break
+			#else if a NEXT exists
+			elif lp.next != None:
+				# go to that linked pair
+				lp = lp.next
+			#else (there's no next)
+			else:
+				lp.next = LinkedPair(key,value)
+				break
+				# put current keyValue into the next
 
 
-    def _hash(self, key):
-        '''
-        Hash an arbitrary key and return an integer.
+	def remove(self, key):
+		#region
+		"""
+		Remove the value stored with the given key.
 
-        You may replace the Python hash with DJB2 as a stretch goal.
-        '''
-        return hash(key)
+		Print a warning if the key is not found.
 
+		Fill this in.
+		"""
 
-    def _hash_djb2(self, key):
-        '''
-        Hash an arbitrary key using DJB2 hash
+		#endregion
 
-        OPTIONAL STRETCH: Research and implement DJB2
-        '''
-        pass
+		# gethash = self._hash(key)
+		getloc = self._hash_mod(key)
 
+		if self.storage[getloc] == None:
+			print("nothing to remove")
+			return "nothing to remove"
+		
+		self.storage[getloc] = None
 
-    def _hash_mod(self, key):
-        '''
-        Take an arbitrary key and return a valid integer index
-        within the storage capacity of the hash table.
-        '''
-        return self._hash(key) % self.capacity
+	def retrieve(self, key):
+		#region
+		"""
+		Retrieve the value stored with the given key.
 
+		Returns None if the key is not found.
 
-    def insert(self, key, value):
-        '''
-        Store the value with the given key.
+		Fill this in.
+		"""
+		#endregion
 
-        # Part 1: Hash collisions should be handled with an error warning. (Think about and
-        # investigate the impact this will have on the tests)
+		getloc = self._hash_mod(key)
+		# print(120, getloc)
+		if self.storage[getloc] == None:
+			# print("empty location")
+			# return None
+			return ("empty location")
+		
+		return self.storage[getloc]
 
-        # Part 2: Change this so that hash collisions are handled with Linked List Chaining.
+	def resize(self):
+		#region
+		"""
+		Doubles the capacity of the hash table and
+		rehash all key/value pairs.
 
-        Fill this in.
-        '''
-        pass
+		Fill this in.
+		"""
+		#endregion
 
-
-
-    def remove(self, key):
-        '''
-        Remove the value stored with the given key.
-
-        Print a warning if the key is not found.
-
-        Fill this in.
-        '''
-        pass
-
-
-    def retrieve(self, key):
-        '''
-        Retrieve the value stored with the given key.
-
-        Returns None if the key is not found.
-
-        Fill this in.
-        '''
-        pass
+		self.capacity *= 2
+		oldstore = self.storage
+		self.storage = [None] * self.capacity
 
 
-    def resize(self):
-        '''
-        Doubles the capacity of the hash table and
-        rehash all key/value pairs.
-
-        Fill this in.
-        '''
-        pass
-
+		for item in oldstore:
+			# if item != None:
+			while item:
+				self.insert(item.key, item.value)
+				if item.next != None:
+					item = item.next
+				else:
+					break
 
 
 if __name__ == "__main__":
-    ht = HashTable(2)
+	ht = HashTable(2)
 
-    ht.insert("line_1", "Tiny hash table")
-    ht.insert("line_2", "Filled beyond capacity")
-    ht.insert("line_3", "Linked list saves the day!")
+	ht.insert("line_1", "Tiny hash table")
+	ht.insert("line_2", "Filled beyond capacity")
+	ht.insert("line_3", "Linked list saves the day!")
 
-    print("")
+	print("")
 
-    # Test storing beyond capacity
-    print(ht.retrieve("line_1"))
-    print(ht.retrieve("line_2"))
-    print(ht.retrieve("line_3"))
+	# Test storing beyond capacity
+	print(ht.retrieve("line_1"))
+	print(ht.retrieve("line_2"))
+	print(ht.retrieve("line_3"))
 
-    # Test resizing
-    old_capacity = len(ht.storage)
-    ht.resize()
-    new_capacity = len(ht.storage)
+	# Test resizing
+	old_capacity = len(ht.storage)
+	ht.resize()
+	new_capacity = len(ht.storage)
 
-    print(f"\nResized from {old_capacity} to {new_capacity}.\n")
+	print(f"\nResized from {old_capacity} to {new_capacity}.\n")
 
-    # Test if data intact after resizing
-    print(ht.retrieve("line_1"))
-    print(ht.retrieve("line_2"))
-    print(ht.retrieve("line_3"))
+	# Test if data intact after resizing
+	print(ht.retrieve("line_1"))
+	print(ht.retrieve("line_2"))
+	print(ht.retrieve("line_3"))
 
-    print("")
+	print("") 
